@@ -56,7 +56,7 @@ static IM3Module w_load_module(const char* fname) {
 }
 
 // Call a WASM function with varying number of arguments
-static int w_call_func(IM3Function f, int numOfArgs, int *args) {
+static M3Result w_call_func(IM3Function f, int numOfArgs, int *args) {
 	switch (numOfArgs) {
 		case 2: return m3_CallV(f, args[0]);
 		case 3: return m3_CallV(f, args[0], args[1]);
@@ -79,7 +79,7 @@ static int c_run_function(lua_State *L) {
 	const char *functionName = pd->lua->getArgString(1);
 
 	IM3Function f;
-	const char *result = m3_FindFunction(&f, runtime, functionName);
+	M3Result result = m3_FindFunction(&f, runtime, functionName);
 	if (result) FATAL("m3_FindFunction: %s", result);
 
 	int *args = NULL;
